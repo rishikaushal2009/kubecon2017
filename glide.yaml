@@ -1,6 +1,6 @@
 package: .
 import:
-- package: github.com/Sirupsen/logrus
+- package: github.com/sirupsen/logrus
 - package: github.com/dustin/go-humanize
   version: ^1.0.0
 - package: github.com/urfave/cli
