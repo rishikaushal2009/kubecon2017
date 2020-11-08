@@ -8,7 +8,7 @@ require (
 	github.com/urfave/cli v1.18.0
 	k8s.io/api v0.19.0
 	k8s.io/apimachinery v0.19.0
-	github.com/client-go v0.19.0
+	k8s.io/client-go v0.19.0
 	
 )
 
