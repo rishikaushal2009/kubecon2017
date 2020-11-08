@@ -3,18 +3,18 @@ module client-go
 go 1.15
 
 require (
-	github.com/dustin/go-humanize v0.0.0-20171111073723-bb3d318650d4
+	github.com/dustin/go-humanize v1.0.0
 	github.com/imdario/mergo v0.3.11 // indirect
 	github.com/kubernetes/client-go v1.5.1 // indirect
 	github.com/lavalamp/client-go-flat v0.0.0-20170202001959-2ae7e71b61d5 // indirect
-	github.com/sirupsen/logrus v0.10.0
+	github.com/sirupsen/logrus v1.6.0
 	github.com/ugorji/go v1.1.13 // indirect
 	github.com/urfave/cli v1.22.5
 	golang.org/dl v0.0.0-20201105230244-7f2637f4aae3 // indirect
 	golang.org/x/time v0.0.0-20200630173020-3af7569d3a1e // indirect
-	k8s.io/api v0.0.0-20200214081623-ecbd4af0fc33 // indirect
-	k8s.io/apimachinery v0.0.0-20200214081019-7490b3ed6e92
-	k8s.io/client-go v0.0.0-20200214082307-e38a84523341
+	k8s.io/apimachinery v0.19.3
+	k8s.io/apiserver v0.19.3 // indirect
+	k8s.io/client-go v0.19.3
 	k8s.io/code-generator v0.0.0-20200214080538-dc8f3adce97c // indirect
 	k8s.io/utils v0.0.0-20201104234853-8146046b121e // indirect
 )
