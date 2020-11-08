@@ -11,7 +11,7 @@ import (
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/fields"
 	"k8s.io/client-go/kubernetes"
-
+	api "k8s.io/client-go/pkg/v1alpha1"
 	"k8s.io/client-go/rest"
 	"k8s.io/client-go/tools/cache"
 	"k8s.io/client-go/tools/clientcmd"
@@ -107,7 +107,7 @@ func handleNodeUpdate(old, current interface{}) {
 
 func pollNodes() error {
 	for {
-		nodes, err := clientset.CoreV1().Nodes().List(v1.ListOptions{FieldSelector: "metadata.name=minikube"})
+		nodes, err := clientset.Core().Nodes().List(v1.ListOptions{FieldSelector: "metadata.name=minikube"})
 		if err != nil {
 			logrus.Warnf("Failed to poll the nodes: %v", err)
 			continue
@@ -115,7 +115,7 @@ func pollNodes() error {
 		if len(nodes.Items) > 0 {
 			node := nodes.Items[0]
 			node.Annotations["checked"] = "true"
-			_, err := clientset.CoreV1().Nodes().Update(&node)
+			_, err := clientset.Core().Nodes().Update(&node)
 			if err != nil {
 				logrus.Warnf("Failed to update the node: %v", err)
 				continue
