@@ -53,7 +53,7 @@ func main() {
 func watchNodes() {
 	imageCapacity = make(map[string]int64)
 	//Regular informer example
-	watchList := cache.NewListWatchFromClient(clientset.Core().RESTClient(), "nodes", v1.NamespaceAll,
+	watchList := cache.NewListWatchFromClient(clientset.CoreV1().RESTClient(), "nodes", v1.NamespaceAll,
 		fields.Everything())
 	store, controller = cache.NewInformer(
 		watchList,
@@ -107,7 +107,7 @@ func handleNodeUpdate(old, current interface{}) {
 
 func pollNodes() error {
 	for {
-		nodes, err := clientset.Core().Nodes().List(v1.ListOptions{FieldSelector: "metadata.name=minikube"})
+		nodes, err := clientset.CoreV1().Nodes().List(v1.ListOptions{FieldSelector: "metadata.name=minikube"})
 		if err != nil {
 			logrus.Warnf("Failed to poll the nodes: %v", err)
 			continue
@@ -115,7 +115,7 @@ func pollNodes() error {
 		if len(nodes.Items) > 0 {
 			node := nodes.Items[0]
 			node.Annotations["checked"] = "true"
-			_, err := clientset.Core().Nodes().Update(&node)
+			_, err := clientset.CoreV1().Nodes().Update(&node)
 			if err != nil {
 				logrus.Warnf("Failed to update the node: %v", err)
 				continue
