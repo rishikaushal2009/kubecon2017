@@ -20,4 +20,5 @@ replace (
 	k8s.io/apimachinery => k8s.io/apimachinery v0.0.0-20200214081019-7490b3ed6e92
 	k8s.io/client-go => k8s.io/client-go v0.0.0-20200214082307-e38a84523341
 	k8s.io/code-generator => k8s.io/code-generator v0.0.0-20200214080538-dc8f3adce97c
+	github.com/googleapis/gnostic => github.com/googleapis/gnostic v0.3.1
 )
