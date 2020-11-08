@@ -5,13 +5,17 @@ import (
 
 	"time"
 
+	"go-skel/go/pkg/mod/k8s.io/client-go@v1.5.1/1.5/pkg/api"
+
 	"github.com/dustin/go-humanize"
 	"github.com/sirupsen/logrus"
 	"github.com/urfave/cli"
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/fields"
 	"k8s.io/client-go/kubernetes"
-	api "k8s.io/client-go/pkg/api/v1"
+
+	//api "k8s.io/client-go/pkg/api/v1"
+	v1 "k8s.io/api/batch/v1"
 	"k8s.io/client-go/rest"
 	"k8s.io/client-go/tools/cache"
 	"k8s.io/client-go/tools/clientcmd"
