@@ -1,6 +1,6 @@
 module client-go
 
-go 1.14
+go 1.15
 
 require (
 	github.com/dustin/go-humanize v0.0.0-20171111073723-bb3d318650d4
