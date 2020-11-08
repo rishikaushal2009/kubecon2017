@@ -11,7 +11,7 @@ require (
 	github.com/urfave/cli v1.22.5
 	golang.org/dl v0.0.0-20201105230244-7f2637f4aae3 // indirect
 	golang.org/x/time v0.0.0-20200630173020-3af7569d3a1e // indirect
-	k8s.io/api v0.0.0-20200214081623-ecbd4af0fc33
+	k8s.io/api v0.0.0-20200214081623-ecbd4af0fc33 // indirect
 	k8s.io/apimachinery v0.0.0-20200214081019-7490b3ed6e92
 	k8s.io/client-go v0.0.0-20200214082307-e38a84523341
 	k8s.io/code-generator v0.0.0-20200214080538-dc8f3adce97c // indirect
