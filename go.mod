@@ -6,6 +6,7 @@ require (
 	github.com/dustin/go-humanize v0.0.0-20171111073723-bb3d318650d4
 	github.com/imdario/mergo v0.3.11 // indirect
 	github.com/kubernetes/client-go v1.5.1 // indirect
+	github.com/lavalamp/client-go-flat v0.0.0-20170202001959-2ae7e71b61d5 // indirect
 	github.com/sirupsen/logrus v0.10.0
 	github.com/ugorji/go v1.1.13 // indirect
 	github.com/urfave/cli v1.22.5
