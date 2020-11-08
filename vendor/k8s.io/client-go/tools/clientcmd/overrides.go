@@ -18,6 +18,7 @@ package clientcmd
 
 import (
 	"strconv"
+	"strings"
 
 	"github.com/spf13/pflag"
 
@@ -36,7 +37,7 @@ type ConfigOverrides struct {
 	Timeout         string
 }
 
-// ConfigOverrideFlags holds the flag names to be used for binding command line flags.  Notice that this structure tightly
+// ConfigOverrideFlags holds the flag names to be used for binding command line flags. Notice that this structure tightly
 // corresponds to ConfigOverrides
 type ConfigOverrideFlags struct {
 	AuthOverrideFlags    AuthOverrideFlags
@@ -70,6 +71,7 @@ type ClusterOverrideFlags struct {
 	APIVersion            FlagInfo
 	CertificateAuthority  FlagInfo
 	InsecureSkipTLSVerify FlagInfo
+	TLSServerName         FlagInfo
 }
 
 // FlagInfo contains information about how to register a flag.  This struct is useful if you want to provide a way for an extender to
@@ -97,6 +99,15 @@ func (f FlagInfo) BindStringFlag(flags *pflag.FlagSet, target *string) FlagInfo 
 	// you can't register a flag without a long name
 	if len(f.LongName) > 0 {
 		flags.StringVarP(target, f.LongName, f.ShortName, f.Default, f.Description)
+	}
+	return f
+}
+
+// BindTransformingStringFlag binds the flag based on the provided info.  If LongName == "", nothing is registered
+func (f FlagInfo) BindTransformingStringFlag(flags *pflag.FlagSet, target *string, transformer func(string) (string, error)) FlagInfo {
+	// you can't register a flag without a long name
+	if len(f.LongName) > 0 {
+		flags.VarP(newTransformingStringValue(f.Default, target, transformer), f.LongName, f.ShortName, f.Description)
 	}
 	return f
 }
@@ -135,6 +146,7 @@ const (
 	FlagContext          = "context"
 	FlagNamespace        = "namespace"
 	FlagAPIServer        = "server"
+	FlagTLSServerName    = "tls-server-name"
 	FlagInsecure         = "insecure-skip-tls-verify"
 	FlagCertFile         = "client-certificate"
 	FlagKeyFile          = "client-key"
@@ -179,6 +191,7 @@ func RecommendedClusterOverrideFlags(prefix string) ClusterOverrideFlags {
 		APIServer:             FlagInfo{prefix + FlagAPIServer, "", "", "The address and port of the Kubernetes API server"},
 		CertificateAuthority:  FlagInfo{prefix + FlagCAFile, "", "", "Path to a cert file for the certificate authority"},
 		InsecureSkipTLSVerify: FlagInfo{prefix + FlagInsecure, "", "false", "If true, the server's certificate will not be checked for validity. This will make your HTTPS connections insecure"},
+		TLSServerName:         FlagInfo{prefix + FlagTLSServerName, "", "", "If provided, this name will be used to validate server certificate. If this is not provided, hostname used to contact the server is used."},
 	}
 }
 
@@ -216,11 +229,23 @@ func BindClusterFlags(clusterInfo *clientcmdapi.Cluster, flags *pflag.FlagSet, f
 	flagNames.APIServer.BindStringFlag(flags, &clusterInfo.Server)
 	flagNames.CertificateAuthority.BindStringFlag(flags, &clusterInfo.CertificateAuthority)
 	flagNames.InsecureSkipTLSVerify.BindBoolFlag(flags, &clusterInfo.InsecureSkipTLSVerify)
+	flagNames.TLSServerName.BindStringFlag(flags, &clusterInfo.TLSServerName)
 }
 
 // BindFlags is a convenience method to bind the specified flags to their associated variables
 func BindContextFlags(contextInfo *clientcmdapi.Context, flags *pflag.FlagSet, flagNames ContextOverrideFlags) {
 	flagNames.ClusterName.BindStringFlag(flags, &contextInfo.Cluster)
 	flagNames.AuthInfoName.BindStringFlag(flags, &contextInfo.AuthInfo)
-	flagNames.Namespace.BindStringFlag(flags, &contextInfo.Namespace)
+	flagNames.Namespace.BindTransformingStringFlag(flags, &contextInfo.Namespace, RemoveNamespacesPrefix)
+}
+
+// RemoveNamespacesPrefix is a transformer that strips "ns/", "namespace/" and "namespaces/" prefixes case-insensitively
+func RemoveNamespacesPrefix(value string) (string, error) {
+	for _, prefix := range []string{"namespaces/", "namespace/", "ns/"} {
+		if len(value) > len(prefix) && strings.EqualFold(value[0:len(prefix)], prefix) {
+			value = value[len(prefix):]
+			break
+		}
+	}
+	return value, nil
 }
