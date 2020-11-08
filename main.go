@@ -5,8 +5,6 @@ import (
 
 	"time"
 
-	"go-skel/go/pkg/mod/k8s.io/client-go@v1.5.1/1.5/pkg/api"
-
 	"github.com/dustin/go-humanize"
 	"github.com/sirupsen/logrus"
 	"github.com/urfave/cli"
