@@ -5,7 +5,9 @@ go 1.15
 require (
 	github.com/dustin/go-humanize v0.0.0-20171111073723-bb3d318650d4
 	github.com/imdario/mergo v0.3.11 // indirect
+	github.com/kubernetes/client-go v1.5.1 // indirect
 	github.com/sirupsen/logrus v0.10.0
+	github.com/ugorji/go v1.1.13 // indirect
 	github.com/urfave/cli v1.22.5
 	golang.org/dl v0.0.0-20201105230244-7f2637f4aae3 // indirect
 	golang.org/x/time v0.0.0-20200630173020-3af7569d3a1e // indirect
