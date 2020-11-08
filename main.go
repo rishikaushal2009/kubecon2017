@@ -11,9 +11,8 @@ import (
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/fields"
 	"k8s.io/client-go/kubernetes"
-	api "k8s.io/client-go/pkg/api"
 
-	//v1 "k8s.io/api/batch/v1"
+	v1 "k8s.io/api/batch/v1"
 	"k8s.io/client-go/rest"
 	"k8s.io/client-go/tools/cache"
 	"k8s.io/client-go/tools/clientcmd"
