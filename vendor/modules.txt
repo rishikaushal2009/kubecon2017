@@ -3,6 +3,7 @@ github.com/cpuguy83/go-md2man/v2/md2man
 # github.com/davecgh/go-spew v1.1.1
 github.com/davecgh/go-spew/spew
 # github.com/dustin/go-humanize v0.0.0-20171111073723-bb3d318650d4
+## explicit
 github.com/dustin/go-humanize
 # github.com/gogo/protobuf v1.3.1
 github.com/gogo/protobuf/proto
@@ -41,11 +42,15 @@ github.com/russross/blackfriday/v2
 # github.com/shurcooL/sanitized_anchor_name v1.0.0
 github.com/shurcooL/sanitized_anchor_name
 # github.com/sirupsen/logrus v0.10.0
+## explicit
 github.com/sirupsen/logrus
 # github.com/spf13/pflag v1.0.5
 github.com/spf13/pflag
 # github.com/urfave/cli v1.22.5
+## explicit
 github.com/urfave/cli
+# golang.org/dl v0.0.0-20201105230244-7f2637f4aae3
+## explicit
 # golang.org/x/crypto v0.0.0-20190820162420-60c769a6c586
 golang.org/x/crypto/ssh/terminal
 # golang.org/x/net v0.0.0-20191004110552-13f9640d40b9
@@ -81,6 +86,7 @@ gopkg.in/inf.v0
 # gopkg.in/yaml.v2 v2.2.8
 gopkg.in/yaml.v2
 # k8s.io/api v0.0.0-20200214081623-ecbd4af0fc33 => k8s.io/api v0.0.0-20200214081623-ecbd4af0fc33
+## explicit
 k8s.io/api/admissionregistration/v1
 k8s.io/api/admissionregistration/v1beta1
 k8s.io/api/apps/v1
@@ -122,6 +128,7 @@ k8s.io/api/storage/v1
 k8s.io/api/storage/v1alpha1
 k8s.io/api/storage/v1beta1
 # k8s.io/apimachinery v0.0.0-20200214081019-7490b3ed6e92 => k8s.io/apimachinery v0.0.0-20200214081019-7490b3ed6e92
+## explicit
 k8s.io/apimachinery/pkg/api/errors
 k8s.io/apimachinery/pkg/api/meta
 k8s.io/apimachinery/pkg/api/resource
@@ -162,6 +169,7 @@ k8s.io/apimachinery/pkg/version
 k8s.io/apimachinery/pkg/watch
 k8s.io/apimachinery/third_party/forked/golang/reflect
 # k8s.io/client-go v0.0.0-20200214082307-e38a84523341 => k8s.io/client-go v0.0.0-20200214082307-e38a84523341
+## explicit
 k8s.io/client-go/discovery
 k8s.io/client-go/kubernetes
 k8s.io/client-go/kubernetes/scheme
@@ -227,6 +235,8 @@ k8s.io/client-go/util/connrotation
 k8s.io/client-go/util/flowcontrol
 k8s.io/client-go/util/homedir
 k8s.io/client-go/util/keyutil
+# k8s.io/code-generator v0.0.0-20200214080538-dc8f3adce97c => k8s.io/code-generator v0.0.0-20200214080538-dc8f3adce97c
+## explicit
 # k8s.io/klog v1.0.0
 k8s.io/klog
 # k8s.io/utils v0.0.0-20200117235808-5f6fbceb4c31
@@ -237,3 +247,9 @@ k8s.io/utils/trace
 sigs.k8s.io/structured-merge-diff/v3/value
 # sigs.k8s.io/yaml v1.2.0
 sigs.k8s.io/yaml
+# golang.org/x/sys => golang.org/x/sys v0.0.0-20190813064441-fde4db37ae7a
+# golang.org/x/tools => golang.org/x/tools v0.0.0-20190821162956-65e3620a7ae7
+# k8s.io/api => k8s.io/api v0.0.0-20200214081623-ecbd4af0fc33
+# k8s.io/apimachinery => k8s.io/apimachinery v0.0.0-20200214081019-7490b3ed6e92
+# k8s.io/client-go => k8s.io/client-go v0.0.0-20200214082307-e38a84523341
+# k8s.io/code-generator => k8s.io/code-generator v0.0.0-20200214080538-dc8f3adce97c
