@@ -53,8 +53,6 @@ var (
 	ClientCertRotationAge DurationMetric = noopDuration{}
 	// RequestLatency is the latency metric that rest clients will update.
 	RequestLatency LatencyMetric = noopLatency{}
-	// RateLimiterLatency is the client side rate limiter latency metric.
-	RateLimiterLatency LatencyMetric = noopLatency{}
 	// RequestResult is the result metric that rest clients will update.
 	RequestResult ResultMetric = noopResult{}
 )
@@ -64,7 +62,6 @@ type RegisterOpts struct {
 	ClientCertExpiry      ExpiryMetric
 	ClientCertRotationAge DurationMetric
 	RequestLatency        LatencyMetric
-	RateLimiterLatency    LatencyMetric
 	RequestResult         ResultMetric
 }
 
@@ -80,9 +77,6 @@ func Register(opts RegisterOpts) {
 		}
 		if opts.RequestLatency != nil {
 			RequestLatency = opts.RequestLatency
-		}
-		if opts.RateLimiterLatency != nil {
-			RateLimiterLatency = opts.RateLimiterLatency
 		}
 		if opts.RequestResult != nil {
 			RequestResult = opts.RequestResult

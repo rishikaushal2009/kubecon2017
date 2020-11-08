@@ -24,7 +24,7 @@ import (
 	"sync"
 	"time"
 
-	"k8s.io/klog/v2"
+	"k8s.io/klog"
 
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/util/diff"
@@ -68,13 +68,7 @@ type defaultCacheMutationDetector struct {
 	name   string
 	period time.Duration
 
-	// compareLock ensures only a single call to CompareObjects runs at a time
-	compareObjectsLock sync.Mutex
-
-	// addLock guards addedObjs between AddObject and CompareObjects
-	addedObjsLock sync.Mutex
-	addedObjs     []cacheObj
-
+	lock       sync.Mutex
 	cachedObjs []cacheObj
 
 	retainDuration     time.Duration
@@ -124,22 +118,15 @@ func (d *defaultCacheMutationDetector) AddObject(obj interface{}) {
 	if obj, ok := obj.(runtime.Object); ok {
 		copiedObj := obj.DeepCopyObject()
 
-		d.addedObjsLock.Lock()
-		defer d.addedObjsLock.Unlock()
-		d.addedObjs = append(d.addedObjs, cacheObj{cached: obj, copied: copiedObj})
+		d.lock.Lock()
+		defer d.lock.Unlock()
+		d.cachedObjs = append(d.cachedObjs, cacheObj{cached: obj, copied: copiedObj})
 	}
 }
 
 func (d *defaultCacheMutationDetector) CompareObjects() {
-	d.compareObjectsLock.Lock()
-	defer d.compareObjectsLock.Unlock()
-
-	// move addedObjs into cachedObjs under lock
-	// this keeps the critical section small to avoid blocking AddObject while we compare cachedObjs
-	d.addedObjsLock.Lock()
-	d.cachedObjs = append(d.cachedObjs, d.addedObjs...)
-	d.addedObjs = nil
-	d.addedObjsLock.Unlock()
+	d.lock.Lock()
+	defer d.lock.Unlock()
 
 	altered := false
 	for i, obj := range d.cachedObjs {
