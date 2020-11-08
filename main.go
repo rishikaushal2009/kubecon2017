@@ -14,7 +14,7 @@ import (
 	"k8s.io/client-go/rest"
 	"k8s.io/client-go/tools/cache"
 	"k8s.io/client-go/tools/clientcmd"
-	api "k8s.io/client-go@v0.19.0/pkg/api/v1"
+	api "k8s.io/client-go@v0.19.0"
 )
 
 var VERSION = "v0.0.0-dev"
