@@ -6,6 +6,9 @@ import:
   version: ~1.7.0
 - package: github.com/urfave/cli
   version: ~2.3.0
+- package: k8s.io/apiextensions-apiserver
+  version: release-1.7
+
 - package: k8s.io/apimachinery
   version: ~0.20.0-beta.1
   subpackages:
