@@ -17,9 +17,7 @@ limitations under the License.
 package v1beta1
 
 import (
-	"context"
-
-	policy "k8s.io/api/policy/v1beta1"
+	policy "k8s.io/client-go/pkg/apis/policy/v1beta1"
 )
 
 // The EvictionExpansion interface allows manually adding extra methods to the ScaleInterface.
@@ -35,6 +33,6 @@ func (c *evictions) Evict(eviction *policy.Eviction) error {
 		Name(eviction.Name).
 		SubResource("eviction").
 		Body(eviction).
-		Do(context.TODO()).
+		Do().
 		Error()
 }

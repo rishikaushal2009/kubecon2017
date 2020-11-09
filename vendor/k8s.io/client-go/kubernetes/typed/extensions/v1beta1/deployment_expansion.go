@@ -16,11 +16,7 @@ limitations under the License.
 
 package v1beta1
 
-import (
-	"context"
-
-	"k8s.io/api/extensions/v1beta1"
-)
+import "k8s.io/client-go/pkg/apis/extensions/v1beta1"
 
 // The DeploymentExpansion interface allows manually adding extra methods to the DeploymentInterface.
 type DeploymentExpansion interface {
@@ -29,5 +25,5 @@ type DeploymentExpansion interface {
 
 // Rollback applied the provided DeploymentRollback to the named deployment in the current namespace.
 func (c *deployments) Rollback(deploymentRollback *v1beta1.DeploymentRollback) error {
-	return c.client.Post().Namespace(c.ns).Resource("deployments").Name(deploymentRollback.Name).SubResource("rollback").Body(deploymentRollback).Do(context.TODO()).Error()
+	return c.client.Post().Namespace(c.ns).Resource("deployments").Name(deploymentRollback.Name).SubResource("rollback").Body(deploymentRollback).Do().Error()
 }

@@ -16,11 +16,7 @@ limitations under the License.
 
 package v1
 
-import (
-	"context"
-
-	v1 "k8s.io/api/core/v1"
-)
+import "k8s.io/client-go/pkg/api/v1"
 
 // The NamespaceExpansion interface allows manually adding extra methods to the NamespaceInterface.
 type NamespaceExpansion interface {
@@ -30,6 +26,6 @@ type NamespaceExpansion interface {
 // Finalize takes the representation of a namespace to update.  Returns the server's representation of the namespace, and an error, if it occurs.
 func (c *namespaces) Finalize(namespace *v1.Namespace) (result *v1.Namespace, err error) {
 	result = &v1.Namespace{}
-	err = c.client.Put().Resource("namespaces").Name(namespace.Name).SubResource("finalize").Body(namespace).Do(context.TODO()).Into(result)
+	err = c.client.Put().Resource("namespaces").Name(namespace.Name).SubResource("finalize").Body(namespace).Do().Into(result)
 	return
 }

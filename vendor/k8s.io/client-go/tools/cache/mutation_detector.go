@@ -24,10 +24,9 @@ import (
 	"sync"
 	"time"
 
-	"k8s.io/klog"
-
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/util/diff"
+	"k8s.io/client-go/kubernetes/scheme"
 )
 
 var mutationDetectionEnabled = false
@@ -36,22 +35,16 @@ func init() {
 	mutationDetectionEnabled, _ = strconv.ParseBool(os.Getenv("KUBE_CACHE_MUTATION_DETECTOR"))
 }
 
-// MutationDetector is able to monitor objects for mutation within a limited window of time
-type MutationDetector interface {
-	// AddObject adds the given object to the set being monitored for a while from now
+type CacheMutationDetector interface {
 	AddObject(obj interface{})
-
-	// Run starts the monitoring and does not return until the monitoring is stopped.
 	Run(stopCh <-chan struct{})
 }
 
-// NewCacheMutationDetector creates a new instance for the defaultCacheMutationDetector.
-func NewCacheMutationDetector(name string) MutationDetector {
+func NewCacheMutationDetector(name string) CacheMutationDetector {
 	if !mutationDetectionEnabled {
 		return dummyMutationDetector{}
 	}
-	klog.Warningln("Mutation detector is enabled, this will result in memory leakage.")
-	return &defaultCacheMutationDetector{name: name, period: 1 * time.Second, retainDuration: 2 * time.Minute}
+	return &defaultCacheMutationDetector{name: name, period: 1 * time.Second}
 }
 
 type dummyMutationDetector struct{}
@@ -71,10 +64,6 @@ type defaultCacheMutationDetector struct {
 	lock       sync.Mutex
 	cachedObjs []cacheObj
 
-	retainDuration     time.Duration
-	lastRotated        time.Time
-	retainedCachedObjs []cacheObj
-
 	// failureFunc is injectable for unit testing.  If you don't have it, the process will panic.
 	// This panic is intentional, since turning on this detection indicates you want a strong
 	// failure signal.  This failure is effectively a p0 bug and you can't trust process results
@@ -90,23 +79,17 @@ type cacheObj struct {
 
 func (d *defaultCacheMutationDetector) Run(stopCh <-chan struct{}) {
 	// we DON'T want protection from panics.  If we're running this code, we want to die
-	for {
-		if d.lastRotated.IsZero() {
-			d.lastRotated = time.Now()
-		} else if time.Now().Sub(d.lastRotated) > d.retainDuration {
-			d.retainedCachedObjs = d.cachedObjs
-			d.cachedObjs = nil
-			d.lastRotated = time.Now()
-		}
+	go func() {
+		for {
+			d.CompareObjects()
 
-		d.CompareObjects()
-
-		select {
-		case <-stopCh:
-			return
-		case <-time.After(d.period):
+			select {
+			case <-stopCh:
+				return
+			case <-time.After(d.period):
+			}
 		}
-	}
+	}()
 }
 
 // AddObject makes a deep copy of the object for later comparison.  It only works on runtime.Object
@@ -115,13 +98,18 @@ func (d *defaultCacheMutationDetector) AddObject(obj interface{}) {
 	if _, ok := obj.(DeletedFinalStateUnknown); ok {
 		return
 	}
-	if obj, ok := obj.(runtime.Object); ok {
-		copiedObj := obj.DeepCopyObject()
-
-		d.lock.Lock()
-		defer d.lock.Unlock()
-		d.cachedObjs = append(d.cachedObjs, cacheObj{cached: obj, copied: copiedObj})
+	if _, ok := obj.(runtime.Object); !ok {
+		return
 	}
+
+	copiedObj, err := scheme.Scheme.Copy(obj.(runtime.Object))
+	if err != nil {
+		return
+	}
+
+	d.lock.Lock()
+	defer d.lock.Unlock()
+	d.cachedObjs = append(d.cachedObjs, cacheObj{cached: obj, copied: copiedObj})
 }
 
 func (d *defaultCacheMutationDetector) CompareObjects() {
@@ -131,13 +119,7 @@ func (d *defaultCacheMutationDetector) CompareObjects() {
 	altered := false
 	for i, obj := range d.cachedObjs {
 		if !reflect.DeepEqual(obj.cached, obj.copied) {
-			fmt.Printf("CACHE %s[%d] ALTERED!\n%v\n", d.name, i, diff.ObjectGoPrintSideBySide(obj.cached, obj.copied))
-			altered = true
-		}
-	}
-	for i, obj := range d.retainedCachedObjs {
-		if !reflect.DeepEqual(obj.cached, obj.copied) {
-			fmt.Printf("CACHE %s[%d] ALTERED!\n%v\n", d.name, i, diff.ObjectGoPrintSideBySide(obj.cached, obj.copied))
+			fmt.Printf("CACHE %s[%d] ALTERED!\n%v\n", d.name, i, diff.ObjectDiff(obj.cached, obj.copied))
 			altered = true
 		}
 	}

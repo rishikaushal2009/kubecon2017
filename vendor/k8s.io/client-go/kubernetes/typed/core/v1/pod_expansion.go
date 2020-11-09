@@ -17,11 +17,9 @@ limitations under the License.
 package v1
 
 import (
-	"context"
-
-	v1 "k8s.io/api/core/v1"
-	policy "k8s.io/api/policy/v1beta1"
 	"k8s.io/client-go/kubernetes/scheme"
+	"k8s.io/client-go/pkg/api/v1"
+	policy "k8s.io/client-go/pkg/apis/policy/v1beta1"
 	restclient "k8s.io/client-go/rest"
 )
 
@@ -34,11 +32,11 @@ type PodExpansion interface {
 
 // Bind applies the provided binding to the named pod in the current namespace (binding.Namespace is ignored).
 func (c *pods) Bind(binding *v1.Binding) error {
-	return c.client.Post().Namespace(c.ns).Resource("pods").Name(binding.Name).SubResource("binding").Body(binding).Do(context.TODO()).Error()
+	return c.client.Post().Namespace(c.ns).Resource("pods").Name(binding.Name).SubResource("binding").Body(binding).Do().Error()
 }
 
 func (c *pods) Evict(eviction *policy.Eviction) error {
-	return c.client.Post().Namespace(c.ns).Resource("pods").Name(eviction.Name).SubResource("eviction").Body(eviction).Do(context.TODO()).Error()
+	return c.client.Post().Namespace(c.ns).Resource("pods").Name(eviction.Name).SubResource("eviction").Body(eviction).Do().Error()
 }
 
 // Get constructs a request for getting the logs for a pod

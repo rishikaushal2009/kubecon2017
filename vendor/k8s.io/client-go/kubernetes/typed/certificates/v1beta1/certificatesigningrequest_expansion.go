@@ -17,9 +17,7 @@ limitations under the License.
 package v1beta1
 
 import (
-	"context"
-
-	certificates "k8s.io/api/certificates/v1beta1"
+	certificates "k8s.io/client-go/pkg/apis/certificates/v1beta1"
 )
 
 type CertificateSigningRequestExpansion interface {
@@ -33,7 +31,7 @@ func (c *certificateSigningRequests) UpdateApproval(certificateSigningRequest *c
 		Name(certificateSigningRequest.Name).
 		Body(certificateSigningRequest).
 		SubResource("approval").
-		Do(context.TODO()).
+		Do().
 		Into(result)
 	return
 }
