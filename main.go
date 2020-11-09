@@ -57,7 +57,12 @@ func watchNodes() {
 		fields.Everything())
 	store, controller = cache.NewInformer(
 		watchList,
-		&api.Node{},
+		&api.Node{
+			TypeMeta:   v1.TypeMeta{},
+			ObjectMeta: v1.ObjectMeta{},
+			Spec:       api.NodeSpec{},
+			Status:     api.NodeStatus{},
+		},
 		time.Second*30,
 		cache.ResourceEventHandlerFuncs{
 			AddFunc:    handleNodeAdd,
