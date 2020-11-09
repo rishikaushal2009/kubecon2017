@@ -5,10 +5,10 @@ import (
 
 	"time"
 
-	"github.com/Sirupsen/logrus"
 	"github.com/dustin/go-humanize"
+	"github.com/sirupsen/logrus"
 	"github.com/urfave/cli"
-	"k8s.io/apimachinery/pkg/apis/meta/v1"
+	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/fields"
 	"k8s.io/client-go/kubernetes"
 	api "k8s.io/client-go/pkg/api/v1"
