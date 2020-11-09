@@ -47,16 +47,20 @@ github.com/go-openapi/swag
 # github.com/go-stack/stack v1.8.0
 github.com/go-stack/stack
 # github.com/gogo/protobuf v1.3.1
+## explicit
 github.com/gogo/protobuf/proto
 github.com/gogo/protobuf/sortkeys
 # github.com/golang/glog v0.0.0-20160126235308-23def4e6c14b
+## explicit
 github.com/golang/glog
+# github.com/golang/groupcache v0.0.0-20200121045136-8c9f03a8e57e
+## explicit
+# github.com/google/go-cmp v0.4.0
+## explicit
 # github.com/google/gofuzz v1.2.0
 ## explicit
 github.com/google/gofuzz
 github.com/google/gofuzz/bytesource
-# github.com/googleapis/gnostic v0.5.3
-## explicit
 # github.com/hashicorp/golang-lru v0.5.4
 ## explicit
 github.com/hashicorp/golang-lru
@@ -73,6 +77,8 @@ github.com/json-iterator/go
 # github.com/juju/ratelimit v1.0.1
 ## explicit
 github.com/juju/ratelimit
+# github.com/kr/pretty v0.2.0
+## explicit
 # github.com/mailru/easyjson v0.7.1
 github.com/mailru/easyjson/buffer
 github.com/mailru/easyjson/jlexer
@@ -86,8 +92,6 @@ github.com/modern-go/reflect2
 # github.com/opencontainers/go-digest v1.0.0
 ## explicit
 github.com/opencontainers/go-digest
-# github.com/opencontainers/image-spec v1.0.1
-## explicit
 # github.com/russross/blackfriday/v2 v2.0.1
 github.com/russross/blackfriday/v2
 # github.com/shurcooL/sanitized_anchor_name v1.0.0
@@ -98,6 +102,8 @@ github.com/sirupsen/logrus
 # github.com/spf13/pflag v1.0.5
 ## explicit
 github.com/spf13/pflag
+# github.com/stretchr/testify v1.5.1
+## explicit
 # github.com/ugorji/go v1.1.13
 ## explicit
 # github.com/ugorji/go/codec v1.1.13
@@ -130,15 +136,13 @@ golang.org/x/text/transform
 golang.org/x/text/unicode/bidi
 golang.org/x/text/unicode/norm
 golang.org/x/text/width
+# gopkg.in/check.v1 v1.0.0-20190902080502-41f04d3bba15
+## explicit
 # gopkg.in/inf.v0 v0.9.1
 ## explicit
 gopkg.in/inf.v0
 # gopkg.in/yaml.v2 v2.3.0
 gopkg.in/yaml.v2
-# k8s.io/api v0.0.0-20170906134749-a9acc2b601db
-## explicit
-# k8s.io/apiextensions-apiserver v0.0.0-20170829135641-8b0133f28359
-## explicit
 # k8s.io/apimachinery v0.0.0-20170826203529-b63e1e4b3f7d
 ## explicit
 k8s.io/apimachinery/pkg/api/equality
@@ -264,8 +268,6 @@ k8s.io/client-go/util/integer
 # k8s.io/kube-openapi v0.0.0-20170801103119-80f07ef71bb4
 ## explicit
 k8s.io/kube-openapi/pkg/common
-# k8s.io/kubernetes v1.8.0-beta.1
-## explicit
 # golang.org/x/sys => golang.org/x/sys v0.0.0-20190813064441-fde4db37ae7a
 # golang.org/x/tools => golang.org/x/tools v0.0.0-20190821162956-65e3620a7ae7
 # k8s.io/code-generator => k8s.io/code-generator v0.0.0-20200214080538-dc8f3adce97c
