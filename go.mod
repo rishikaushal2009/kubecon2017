@@ -24,7 +24,7 @@ require (
 	k8s.io/api v0.0.0-20170906134749-a9acc2b601db // indirect
 	k8s.io/apiextensions-apiserver v0.0.0-20170829135641-8b0133f28359 // indirect
 	k8s.io/apimachinery v0.0.0-20170826203529-b63e1e4b3f7d
-	k8s.io/client-go v0.0.0-20170829125404-2554b0b4622d
+	k8s.io/client-go v4.0.0
 	k8s.io/kube-openapi v0.0.0-20170801103119-80f07ef71bb4 // indirect
 	k8s.io/kubernetes v1.8.0-beta.1 // indirect
 )
